@@ -8,12 +8,6 @@ include conf/machine/include/soc-family.inc
 IMAGE_FSTYPES ?= "tar.bz2 ext3 wic.bz2 wic.bmap"
 WKS_FILE ?= "sdimage-raspberrypi.wks"
 
-XSERVER = " \
-    xserver-xorg \
-    ${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "xserver-xorg-extension-glx", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "xf86-video-modesetting", "xf86-video-fbdev", d)} \
-    "
-
 RPI_KERNEL_DEVICETREE_OVERLAYS ?= " \
     overlays/at86rf233.dtbo \
     overlays/disable-bt.dtbo \
@@ -74,7 +68,7 @@ KERNEL_IMAGETYPE_DIRECT ??= "zImage"
 KERNEL_IMAGETYPE ?= "${@bb.utils.contains('RPI_USE_U_BOOT', '1', \
         '${KERNEL_IMAGETYPE_UBOOT}', '${KERNEL_IMAGETYPE_DIRECT}', d)}"
 
-MACHINE_FEATURES += "apm usbhost keyboard vfat ext2 screen touchscreen alsa bluetooth wifi sdio ${@bb.utils.contains('DISABLE_VC4GRAPHICS', '1', '', 'vc4graphics', d)}"
+MACHINE_FEATURES += "apm usbhost keyboard vfat ext2 bluetooth wifi sdio"
 
 # Raspberry Pi has no hardware clock
 MACHINE_FEATURES_BACKFILL_CONSIDERED = "rtc"
