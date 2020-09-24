@@ -5,6 +5,7 @@
 #
 MACHINE = "raspberrypi0-wifi"
 ENABLE_UART = "1"
+ENABLE_I2C = "1"
 
 #
 # Default policy config
@@ -58,7 +59,7 @@ BB_DISKMON_DIRS ??= "\
 
 
 # Use systemd instead of sysvinit
-DISTRO_FEATURES = "bluetooth ext2 ipv4 pcmcia usbhost xattr pci systemd ldconfig"
+DISTRO_FEATURES = "bluetooth ext2 ipv4 pcmcia usbhost xattr pci systemd ldconfig wifi"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 
@@ -66,4 +67,7 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 # track the version of this file when it was generated. This can safely be ignored if
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
+
+# Install tools for wireless management
+IMAGE_INSTALL_append = " iwd iw"
 
