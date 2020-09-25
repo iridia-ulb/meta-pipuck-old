@@ -15,6 +15,7 @@ SRC_URI = " \
     git://github.com/raspberrypi/linux.git;branch=${LINUX_RPI_BRANCH} \
     file://0001-Revert-selftests-bpf-Skip-perf-hw-events-test-if-the.patch \
     file://0002-Revert-selftests-bpf-Fix-perf_buffer-test-on-systems.patch \
+    file://0003-dts-Add-Pi-Puck-device-tree-overlay.patch \
     file://powersave.cfg \
     file://cryptography.cfg \
     file://iio.cfg \

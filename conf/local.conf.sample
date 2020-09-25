@@ -69,5 +69,5 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 CONF_VERSION = "1"
 
 # Install tools for wireless management
-IMAGE_INSTALL_append = " iwd iw"
+IMAGE_INSTALL_append = " iwd iw i2c-tools"
 

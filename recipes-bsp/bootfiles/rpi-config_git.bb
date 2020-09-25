@@ -196,6 +196,26 @@ do_deploy() {
 
     # Append extra config if the user has provided any
     printf "${RPI_EXTRA_CONFIG}\n" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+    
+    # Enable Pi-puck device tree overlay
+    echo "dtoverlay=pi-puck" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+    
+    # Set GPIO 5 (pin 29) to input,pull-down so board powers off after shutdown
+    # Set GPIO 5 (pin 29) to output,high to keep board powered on until shutdown
+    echo "gpio=5=ip,pd" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+    echo "gpio=5=op,dh" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Set GPIO 6 (pin 31) to input,pull-up for power button
+    echo "gpio=6=ip,pu" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Set GPIO 16,24 (pins 36,18) to output,high to release FT903 and e-puck resets
+    echo "gpio=16,24=op,dh" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Set GPIO 13 (pins 33) to input,pull-none for charge detect input
+    echo "gpio=13=ip,pn" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Set GPIO 22 (pins 15) to output,low for speaker enable (disabled by default)
+    echo "gpio=22=op,dl" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
 
     # Handle setup with armstub file
     if [ "${@bb.utils.contains("MACHINE_FEATURES", "armstub", "1", "0", d)}" = "1" ]; then
