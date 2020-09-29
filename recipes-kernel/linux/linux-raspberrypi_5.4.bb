@@ -17,9 +17,9 @@ SRC_URI = " \
     file://0002-Revert-selftests-bpf-Fix-perf_buffer-test-on-systems.patch \
     file://0003-iio-Add-support-for-low-speed-output-buffers.patch \
     file://0004-mfd-Add-support-for-the-E-Puck-mobile-robot.patch \
-    file://0005-dts-Add-Pi-Puck-device-tree-overlay.patch \
+    file://0005-dts-Add-device-tree-overlay-for-the-Pi-Puck.patch \
     file://powersave.cfg \
     file://cryptography.cfg \
-    file://epuck.cfg \    
+    file://epuck.cfg \
 "
 

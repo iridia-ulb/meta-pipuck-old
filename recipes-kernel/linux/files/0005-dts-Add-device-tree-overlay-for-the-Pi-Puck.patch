@@ -1,12 +1,12 @@
-From f3d6c80264d897248ce953e6e3559d17fdebee0f Mon Sep 17 00:00:00 2001
+From 3623e734b2c1c09dd005c96107b3d2c040bd876b Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
 Date: Fri, 25 Sep 2020 13:02:56 +0000
-Subject: [PATCH] dts: Add Pi-Puck device tree overlay
+Subject: [PATCH] dts: Add device tree overlay for the Pi-Puck
 
 ---
  arch/arm/boot/dts/overlays/Makefile           |   1 +
- .../arm/boot/dts/overlays/pi-puck-overlay.dts | 405 ++++++++++++++++++
- 2 files changed, 406 insertions(+)
+ .../arm/boot/dts/overlays/pi-puck-overlay.dts | 421 ++++++++++++++++++
+ 2 files changed, 422 insertions(+)
  create mode 100644 arch/arm/boot/dts/overlays/pi-puck-overlay.dts
 
 diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
@@ -23,10 +23,10 @@ index fa6db6eed3e2..54484f8cd10c 100644
  	pwm-2chan.dtbo \
 diff --git a/arch/arm/boot/dts/overlays/pi-puck-overlay.dts b/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
 new file mode 100644
-index 000000000000..a9b43a28f81a
+index 000000000000..ec1095821675
 --- /dev/null
 +++ b/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
-@@ -0,0 +1,405 @@
+@@ -0,0 +1,421 @@
 +/dts-v1/;
 +/plugin/;
 +
@@ -151,7 +151,23 @@ index 000000000000..a9b43a28f81a
 +					#address-cells = <1>;
 +					#size-cells = <0>;
 +					reg = <1>;
-+					/* e-puck devices */
++					/* e-puck */
++					epuck: epuck@1f {
++						compatible = "gctronic,epuck";
++						reg = <0x1f>;
++						leds {
++						   compatible = "gctronic,epuck-leds";
++						};
++						motors {
++						   compatible = "gctronic,epuck-motors";
++						};
++						encoders {
++						   compatible = "gctronic,epuck-encoders";
++						};
++						rangefinders {
++						   compatible = "gctronic,epuck-rangefinders";
++						};
++					};
 +				};
 +				i2c_pipuck_2: i2c@2 {
 +					#address-cells = <1>;
