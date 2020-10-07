@@ -38,7 +38,7 @@ CMDLINE_append += ' ${@oe.utils.conditional("DISABLE_RPI_BOOT_LOGO", "1", "logo.
 CMDLINE_DEBUG ?= ""
 CMDLINE_append = " ${CMDLINE_DEBUG}"
 
-KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains("MACHINE_FEATURES", "pitft28r", "stmpe-ts", "", d)}"
+KERNEL_MODULE_AUTOLOAD += "iio-trig-sysfs"
 
 # A LOADADDR is needed when building a uImage format kernel. This value is not
 # set by default in rpi-4.8.y and later branches so we need to provide it
