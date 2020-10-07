@@ -1,4 +1,4 @@
-From 21ceefb19f39d7f3a561c6d6b5b77b0a48668dda Mon Sep 17 00:00:00 2001
+From 283cd0c83dbd1b245a0c7cf334bf2fbf5d825c69 Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
 Date: Mon, 28 Sep 2020 09:58:28 +0000
 Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
@@ -6,13 +6,13 @@ Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
 ---
  drivers/mfd/Kconfig              |  27 +++++
  drivers/mfd/Makefile             |   6 +
- drivers/mfd/epuck-core.c         | 162 ++++++++++++++++++++++++++
- drivers/mfd/epuck-encoders.c     | 153 +++++++++++++++++++++++++
- drivers/mfd/epuck-leds.c         | 187 ++++++++++++++++++++++++++++++
- drivers/mfd/epuck-motors.c       | 188 ++++++++++++++++++++++++++++++
- drivers/mfd/epuck-rangefinders.c | 191 +++++++++++++++++++++++++++++++
- include/linux/mfd/epuck.h        |  52 +++++++++
- 8 files changed, 966 insertions(+)
+ drivers/mfd/epuck-core.c         | 162 +++++++++++++++++++++++++
+ drivers/mfd/epuck-encoders.c     | 153 ++++++++++++++++++++++++
+ drivers/mfd/epuck-leds.c         | 197 +++++++++++++++++++++++++++++++
+ drivers/mfd/epuck-motors.c       | 188 +++++++++++++++++++++++++++++
+ drivers/mfd/epuck-rangefinders.c | 191 ++++++++++++++++++++++++++++++
+ include/linux/mfd/epuck.h        |  52 ++++++++
+ 8 files changed, 976 insertions(+)
  create mode 100644 drivers/mfd/epuck-core.c
  create mode 100644 drivers/mfd/epuck-encoders.c
  create mode 100644 drivers/mfd/epuck-leds.c
@@ -401,10 +401,10 @@ index 000000000000..bb214980f9f6
 +MODULE_DESCRIPTION("E-Puck encoder driver");
 diff --git a/drivers/mfd/epuck-leds.c b/drivers/mfd/epuck-leds.c
 new file mode 100644
-index 000000000000..6fad8caa3762
+index 000000000000..2caedb9c17e0
 --- /dev/null
 +++ b/drivers/mfd/epuck-leds.c
-@@ -0,0 +1,187 @@
+@@ -0,0 +1,197 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +
 +/*
@@ -467,18 +467,18 @@ index 000000000000..6fad8caa3762
 +	.postdisable = epuck_leds_buffer_postdisable,
 +};
 +
-+#define EPUCK_LED(_index) {				\
-+	.type = IIO_LIGHT,						\
-+	.indexed = true,						\
-+	.channel = _index,						\
-+	.output = true,							\
-+	.scan_index = _index,						\
-+	.scan_type = {							\
-+		.sign = 'u',						\
-+		.realbits = 1,						\
-+		.storagebits = 1,					\
-+		.endianness = IIO_BE,					\
-+	},								\
++#define EPUCK_LED(_index) {		\
++	.type = IIO_LIGHT,		\
++	.indexed = true,		\
++	.channel = _index,		\
++	.output = true,			\
++	.scan_index = _index,		\
++	.scan_type = {			\
++		.sign = 'u',		\
++		.realbits = 1,		\
++		.storagebits = 8,	\
++		.endianness = IIO_BE,	\
++	},				\
 +}
 +
 +static const struct iio_chan_spec epuck_leds_channels[] = {
@@ -494,7 +494,7 @@ index 000000000000..6fad8caa3762
 +	EPUCK_LED(9),
 +};
 +
-+static const unsigned long epuck_leds_scan_masks[] = {0x3, 0};
++static const unsigned long epuck_leds_scan_masks[] = {0x03ff, 0};
 +
 +static irqreturn_t epuck_leds_trigger_handler(int irq, void *p)
 +{
@@ -503,9 +503,11 @@ index 000000000000..6fad8caa3762
 +	struct epuck_leds *leds = iio_priv(indio_dev);
 +	struct iio_buffer *buffer = indio_dev->buffer;
 +
-+	int ret;
-+	u8 led_config[2];
-+	
++	int ret, index;
++	u8 led_config[10];
++	u8 reg1_config = 0;
++	u8 reg2_config = 0;
++
 +	/* get sample from buffer */
 +	ret = iio_buffer_remove_sample(buffer, led_config);
 +	if (ret < 0) {
@@ -515,17 +517,25 @@ index 000000000000..6fad8caa3762
 +	}
 +	
 +	/* write the ring led configuration */
++	/* this is a hack since IIO will not work with storagebits < 8 */
++	for(index = 0; index < 8; index++)
++		if(led_config[index])
++			reg1_config |= 1 << index;
 +	ret = epuck_write_byte(leds->epuck,
 +			       EPUCK_REG_LEDS1,
-+			       led_config[0]);
++			       reg1_config);
 +	if (ret < 0) {
 +		goto out;
 +	}
 +	
 +	/* write the front and body led configuration */	
++	/* this is a hack since IIO will not work with storagebits < 8 */
++	for(index = 0; index < 2; index++)
++		if(led_config[index + 8])
++			reg2_config |= 1 << index;
 +	ret = epuck_write_byte(leds->epuck,
 +			       EPUCK_REG_LEDS2,
-+			       led_config[1]);
++			       reg2_config);
 +out:
 +	iio_trigger_notify_done(indio_dev->trig);
 +	return IRQ_HANDLED;
@@ -1042,5 +1052,5 @@ index 000000000000..3aaadb0d4f8d
 +
 +#endif /* _LINUX_EPUCK_H_ */
 -- 
-2.17.1
+2.25.1
 
