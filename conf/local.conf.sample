@@ -23,7 +23,7 @@ PACKAGE_CLASSES ?= "package_rpm"
 # The EXTRA_IMAGE_FEATURES variable allows extra packages to be added to the generated
 # images. Some of these options are added to certain image types automatically. 
 # We default to enabling the debugging tweaks.
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-openssh"
 
 #
 # Additional image features
@@ -68,6 +68,6 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
 
-# Install tools for wireless management
-IMAGE_INSTALL_append = " iwd iw i2c-tools"
+# Install required tools
+IMAGE_INSTALL_append = " iwd iw i2c-tools argos3-srocs"
 
