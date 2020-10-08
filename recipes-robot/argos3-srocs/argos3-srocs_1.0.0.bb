@@ -1,6 +1,6 @@
 SUMMARY = "Pi-Puck plug-in for ARGoS3"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://git/src/LICENSE;md5=b176b8e2358647d4c584c9a52b6715fd"
+LIC_FILES_CHKSUM = "file://src/LICENSE;md5=b176b8e2358647d4c584c9a52b6715fd"
 
 DEPENDS = "argos3 apriltag libiio"
 RDEPENDS_${PN} = "argos3 apriltag libiio"
@@ -13,9 +13,9 @@ SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
-OECMAKE_SOURCEPATH = "${WORKDIR}/git/src"
+OECMAKE_SOURCEPATH = "${S}/src"
 
-S = "${WORKDIR}"
+EXTRA_OECMAKE += " -DARGOS_BUILD_FOR=pipuck -DARGOS_DOCUMENTATION=OFF"
 
 FILES_${PN} += "${libdir}/argos3/*"
 FILES_${PN} += "${datadir}/argos3"
