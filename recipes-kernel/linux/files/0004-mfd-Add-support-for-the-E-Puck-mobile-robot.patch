@@ -1,7 +1,7 @@
-From 283cd0c83dbd1b245a0c7cf334bf2fbf5d825c69 Mon Sep 17 00:00:00 2001
+From af1b73c1f42e9f2346d553eee49cd2a237126daa Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
 Date: Mon, 28 Sep 2020 09:58:28 +0000
-Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
+Subject: [PATCH 1/2] mfd: Add support for the E-Puck mobile robot
 
 ---
  drivers/mfd/Kconfig              |  27 +++++
@@ -10,9 +10,9 @@ Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
  drivers/mfd/epuck-encoders.c     | 153 ++++++++++++++++++++++++
  drivers/mfd/epuck-leds.c         | 197 +++++++++++++++++++++++++++++++
  drivers/mfd/epuck-motors.c       | 188 +++++++++++++++++++++++++++++
- drivers/mfd/epuck-rangefinders.c | 191 ++++++++++++++++++++++++++++++
+ drivers/mfd/epuck-rangefinders.c | 192 ++++++++++++++++++++++++++++++
  include/linux/mfd/epuck.h        |  52 ++++++++
- 8 files changed, 976 insertions(+)
+ 8 files changed, 977 insertions(+)
  create mode 100644 drivers/mfd/epuck-core.c
  create mode 100644 drivers/mfd/epuck-encoders.c
  create mode 100644 drivers/mfd/epuck-leds.c
@@ -242,7 +242,7 @@ index 000000000000..e5740b6361e9
 +
 diff --git a/drivers/mfd/epuck-encoders.c b/drivers/mfd/epuck-encoders.c
 new file mode 100644
-index 000000000000..bb214980f9f6
+index 000000000000..2049cdd2c6e8
 --- /dev/null
 +++ b/drivers/mfd/epuck-encoders.c
 @@ -0,0 +1,153 @@
@@ -320,13 +320,13 @@ index 000000000000..bb214980f9f6
 +	int ret;
 +	u16 values[2];
 +	ret = epuck_read_word(encoders->epuck, 
-+				    EPUCK_REG_MTR_STPS_LEFT,
-+				    &values[0]);
++			      EPUCK_REG_MTR_STPS_LEFT,
++			      &values[0]);
 +	if (ret < 0)
 +		goto out;
 +	ret = epuck_read_word(encoders->epuck, 
-+				    EPUCK_REG_MTR_STPS_RIGHT,
-+				    &values[1]);
++			      EPUCK_REG_MTR_STPS_RIGHT,
++			      &values[1]);
 +	if (ret < 0)
 +		goto out;
 +	
@@ -798,10 +798,10 @@ index 000000000000..ce9d6ea45342
 +MODULE_DESCRIPTION("E-Puck motor driver");
 diff --git a/drivers/mfd/epuck-rangefinders.c b/drivers/mfd/epuck-rangefinders.c
 new file mode 100644
-index 000000000000..ebf7bb0a8bf6
+index 000000000000..652d359a77f7
 --- /dev/null
 +++ b/drivers/mfd/epuck-rangefinders.c
-@@ -0,0 +1,191 @@
+@@ -0,0 +1,192 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +
 +/*
@@ -863,28 +863,29 @@ index 000000000000..ebf7bb0a8bf6
 +};
 +
 +#define EPUCK_RANGEFINDER(_index) {	\
-+	.type = IIO_PROXIMITY,			\
-+	.indexed = true,			\
-+	.channel = _index,			\
-+	.output = true,				\
-+	.scan_index = _index,			\
-+	.scan_type = {				\
-+		.sign = 'u',			\
-+		.realbits = 16,			\
-+		.storagebits = 16,		\
-+		.endianness = IIO_LE,		\
-+	},					\
-+}, {						\
-+	.type = IIO_LIGHT,			\
-+	.indexed = true,			\
-+	.channel = _index,			\
-+	.scan_index = _index + 8,		\
-+	.scan_type = {				\
-+		.sign = 'u',			\
-+		.realbits = 16,			\
-+		.storagebits = 16,		\
-+		.endianness = IIO_LE,		\
-+	},					\
++	.type = IIO_PROXIMITY,		\
++	.indexed = true,		\
++	.channel = _index,		\
++	.output = false,		\
++	.scan_index = _index,		\
++	.scan_type = {			\
++		.sign = 'u',		\
++		.realbits = 16,		\
++		.storagebits = 16,	\
++		.endianness = IIO_LE,	\
++	},				\
++}, {					\
++	.type = IIO_LIGHT,		\
++	.indexed = true,		\
++	.channel = _index,		\
++	.output = false,		\
++	.scan_index = _index + 8,	\
++	.scan_type = {			\
++		.sign = 'u',		\
++		.realbits = 16,		\
++		.storagebits = 16,	\
++		.endianness = IIO_LE,	\
++	},				\
 +}
 +
 +static const struct iio_chan_spec epuck_rangefinders_channels[] = {
