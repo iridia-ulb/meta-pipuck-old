@@ -1,4 +1,4 @@
-From 3623e734b2c1c09dd005c96107b3d2c040bd876b Mon Sep 17 00:00:00 2001
+From d63e876ec95402bbab9a88341833bea8e412659f Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
 Date: Fri, 25 Sep 2020 13:02:56 +0000
 Subject: [PATCH] dts: Add device tree overlay for the Pi-Puck
@@ -449,5 +449,5 @@ index 000000000000..ec1095821675
 +	};
 +};
 -- 
-2.17.1
+2.25.1
 

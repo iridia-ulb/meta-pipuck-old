@@ -1,7 +1,7 @@
-From af1b73c1f42e9f2346d553eee49cd2a237126daa Mon Sep 17 00:00:00 2001
+From 013b352cfbea3ffa9558475a4f87062849ab7b4f Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
 Date: Mon, 28 Sep 2020 09:58:28 +0000
-Subject: [PATCH 1/2] mfd: Add support for the E-Puck mobile robot
+Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
 
 ---
  drivers/mfd/Kconfig              |  27 +++++

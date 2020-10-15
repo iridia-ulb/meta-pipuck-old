@@ -18,8 +18,9 @@ SRC_URI = " \
     file://0003-iio-Add-support-for-low-speed-output-buffers.patch \
     file://0004-mfd-Add-support-for-the-E-Puck-mobile-robot.patch \
     file://0005-dts-Add-device-tree-overlay-for-the-Pi-Puck.patch \
+    file://0006-iio-Add-the-E-Puck-ground-sensor.patch \
     file://powersave.cfg \
     file://cryptography.cfg \
-    file://epuck.cfg \
+    file://epuck.cfg \    
 "
 
