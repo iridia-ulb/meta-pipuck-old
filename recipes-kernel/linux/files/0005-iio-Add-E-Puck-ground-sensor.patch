@@ -1,32 +1,15 @@
-From d2301b45d6836d6b8834fb07b5de20b773d79f40 Mon Sep 17 00:00:00 2001
-From: OpenEmbedded <oe.patch@oe>
-Date: Fri, 9 Oct 2020 14:07:42 +0200
-Subject: [PATCH] iio: Add the E-Puck ground sensor
+From bcdefe503aacc91020fceafc625de57ee2b9cc00 Mon Sep 17 00:00:00 2001
+From: Michael Allwright <allsey87@gmail.com>
+Date: Fri, 16 Oct 2020 13:53:53 +0200
+Subject: [PATCH] iio: Add E-Puck ground sensor
 
 ---
- .../arm/boot/dts/overlays/pi-puck-overlay.dts |   5 +
- drivers/iio/light/Kconfig                     |   9 +
- drivers/iio/light/Makefile                    |   1 +
- drivers/iio/light/epuck-groundsensor.c        | 166 ++++++++++++++++++
- 4 files changed, 181 insertions(+)
+ drivers/iio/light/Kconfig              |   9 ++
+ drivers/iio/light/Makefile             |   1 +
+ drivers/iio/light/epuck-groundsensor.c | 166 +++++++++++++++++++++++++
+ 3 files changed, 176 insertions(+)
  create mode 100644 drivers/iio/light/epuck-groundsensor.c
 
-diff --git a/arch/arm/boot/dts/overlays/pi-puck-overlay.dts b/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
-index ec1095821675..e8fd784091ed 100644
---- a/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
-+++ b/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
-@@ -139,6 +139,11 @@
- 						   compatible = "gctronic,epuck-rangefinders";
- 						};
- 					};
-+					/* e-puck ground sensors */
-+					epuck_gs: epuck_gs@60 {
-+						compatible = "gctronic,epuck-groundsensors";
-+						reg = <0x60>;
-+					};
- 				};
- 				i2c_pipuck_2: i2c@2 {
- 					#address-cells = <1>;
 diff --git a/drivers/iio/light/Kconfig b/drivers/iio/light/Kconfig
 index 4a1a883dc061..b4b4efb0f6c1 100644
 --- a/drivers/iio/light/Kconfig

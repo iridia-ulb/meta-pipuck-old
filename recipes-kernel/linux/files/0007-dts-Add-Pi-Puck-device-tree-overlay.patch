@@ -1,12 +1,12 @@
-From d63e876ec95402bbab9a88341833bea8e412659f Mon Sep 17 00:00:00 2001
+From b569802eb23a76d1318acd3e24b62302cd560656 Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
-Date: Fri, 25 Sep 2020 13:02:56 +0000
-Subject: [PATCH] dts: Add device tree overlay for the Pi-Puck
+Date: Fri, 16 Oct 2020 18:40:16 +0200
+Subject: [PATCH] dts: Add Pi-Puck device tree overlay
 
 ---
  arch/arm/boot/dts/overlays/Makefile           |   1 +
- .../arm/boot/dts/overlays/pi-puck-overlay.dts | 421 ++++++++++++++++++
- 2 files changed, 422 insertions(+)
+ .../arm/boot/dts/overlays/pi-puck-overlay.dts | 457 ++++++++++++++++++
+ 2 files changed, 458 insertions(+)
  create mode 100644 arch/arm/boot/dts/overlays/pi-puck-overlay.dts
 
 diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
@@ -23,10 +23,10 @@ index fa6db6eed3e2..54484f8cd10c 100644
  	pwm-2chan.dtbo \
 diff --git a/arch/arm/boot/dts/overlays/pi-puck-overlay.dts b/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
 new file mode 100644
-index 000000000000..ec1095821675
+index 000000000000..c297064656d7
 --- /dev/null
 +++ b/arch/arm/boot/dts/overlays/pi-puck-overlay.dts
-@@ -0,0 +1,421 @@
+@@ -0,0 +1,457 @@
 +/dts-v1/;
 +/plugin/;
 +
@@ -156,17 +156,27 @@ index 000000000000..ec1095821675
 +						compatible = "gctronic,epuck";
 +						reg = <0x1f>;
 +						leds {
-+						   compatible = "gctronic,epuck-leds";
++							compatible = "gctronic,epuck-leds";
 +						};
 +						motors {
-+						   compatible = "gctronic,epuck-motors";
++							compatible = "gctronic,epuck-motors";
 +						};
 +						encoders {
-+						   compatible = "gctronic,epuck-encoders";
++							compatible = "gctronic,epuck-encoders";
 +						};
 +						rangefinders {
-+						   compatible = "gctronic,epuck-rangefinders";
++							compatible = "gctronic,epuck-rangefinders";
 +						};
++					};
++					/* e-puck ground sensors */
++					epuck_groundsensors: epuck_groundsensors@60 {
++						compatible = "gctronic,epuck-groundsensors";
++						reg = <0x60>;
++					};
++					/* e-puck camera configuration */
++					epuck_cameraconf: epuck_cameraconf@6e {
++						compatible = "gctronic,epuck-cameraconf";
++						reg = <0x6e>;
 +					};
 +				};
 +				i2c_pipuck_2: i2c@2 {
@@ -265,7 +275,33 @@ index 000000000000..ec1095821675
 +						#address-cells = <1>;
 +						#size-cells = <0>;
 +						reg = <1>;
-+						/* e-puck devices */
++						/* e-puck */
++						soft_epuck: soft_epuck@1f {
++							compatible = "gctronic,epuck";
++							reg = <0x1f>;
++							soft_leds {
++								compatible = "gctronic,epuck-leds";
++							};
++							soft_motors {
++								compatible = "gctronic,epuck-motors";
++							};
++							soft_encoders {
++								compatible = "gctronic,epuck-encoders";
++							};
++							soft_rangefinders {
++								compatible = "gctronic,epuck-rangefinders";
++							};
++						};
++						/* e-puck ground sensors */
++						soft_epuck_groundsensors: soft_epuck_groundsensors@60 {
++							compatible = "gctronic,epuck-groundsensors";
++							reg = <0x60>;
++						};
++						/* e-puck camera configuration */
++						soft_epuck_cameraconf: soft_epuck_cameraconf@6e {
++							compatible = "gctronic,epuck-cameraconf";
++							reg = <0x6e>;
++						};
 +					};
 +					soft_i2c_pipuck_2: i2c@2 {
 +						#address-cells = <1>;

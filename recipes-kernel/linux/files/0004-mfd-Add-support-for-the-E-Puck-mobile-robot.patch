@@ -1,4 +1,4 @@
-From 013b352cfbea3ffa9558475a4f87062849ab7b4f Mon Sep 17 00:00:00 2001
+From 7f8b4cd014a7d79001397357f64ab3cb3b7a9919 Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
 Date: Mon, 28 Sep 2020 09:58:28 +0000
 Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
