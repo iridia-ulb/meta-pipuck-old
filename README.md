@@ -17,11 +17,11 @@ The easiest way to build this image is to use Docker. Given you have Docker inst
 ```
 sudo docker build https://github.com/allsey87/meta-pipuck.git#:docker
 ```
-Once the above command has completed sucessfully, it will output an image ID. Substitute XXXX below with that image ID to create a container:
+Once the above command has completed sucessfully, it will output an image ID. Substitute `XXXXXX` below with that image ID to create a container:
 ```
 sudo docker create -t -i XXXXXX
 ```
-After executing this command, you should have a new container with the build environment. To start and attach to that container, find the container ID using `sudo docker container list -a` and run the following commands, substituting YYYYYY with the container ID.
+After executing this command, you should have a new container with the build environment. To start and attach to that container, find the container ID using `sudo docker container list -a` and run the following commands, substituting `YYYYYY` with the container ID.
 
 ```
 sudo docker start YYYYYY
@@ -60,7 +60,7 @@ bitbake core-image-base
 
 Occasionally, the build can fail due to internet connectivity issues or due to an oversight in the dependency tree. These issues are normally resolved by just re-executing the command above.
 
-## Burning the image
+## Copying the image
 The most straightforward way to burn a bootable image to the SD card is to use `bmaptool` from Intel. On Ubuntu, this package can be installed with `sudo apt install bmap-tools`. Most distributions of Linux should have a similar package that can be installed.
 
 To burn the image, you need to locate the output image from the build system and to identify the device to which you would like to copy the image. The output image files are called `core-image-base-raspberrypi0-wifi.wic.bz2` and `core-image-base-raspberrypi0-wifi.wic.bmap` should be located under `poky/build/tmp/deploy/images/raspberrypi0-wifi`. The device (probably an SD card) that you want to write to will usually be something like `/dev/sdX` or `/dev/mmcX`. The easiest way to find out is to inspect the output of `dmesg` before and after inserting the SD card into your computer. You will need to unmount the device before burning the image. Be careful not to write the image to the device where your OS is installed.
