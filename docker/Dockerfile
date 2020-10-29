@@ -7,9 +7,10 @@ RUN groupadd -g 1000 yocto && useradd -u 1000 -g yocto -d /home/yocto yocto && m
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 USER yocto
+SHELL ["/bin/bash", "-c"]
 WORKDIR /home/yocto
 RUN git clone git://git.yoctoproject.org/poky --branch dunfell --single-branch
 WORKDIR /home/yocto/poky
 RUN git clone git://git.openembedded.org/meta-openembedded --branch dunfell --single-branch
 RUN git clone https://github.com/allsey87/meta-pipuck.git
-RUN ["/bin/bash", "-c", "TEMPLATECONF=meta-pipuck/conf source oe-init-build-env"]
+ENTRYPOINT TEMPLATECONF=meta-pipuck/conf source oe-init-build-env && /bin/bash
