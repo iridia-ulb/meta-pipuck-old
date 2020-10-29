@@ -12,4 +12,4 @@ RUN git clone git://git.yoctoproject.org/poky --branch dunfell --single-branch
 WORKDIR /home/yocto/poky
 RUN git clone git://git.openembedded.org/meta-openembedded --branch dunfell --single-branch
 RUN git clone https://github.com/allsey87/meta-pipuck.git
-RUN TEMPLATECONF=meta-pipuck/conf source oe-init-build-env
+RUN ["/bin/bash", "-c", "TEMPLATECONF=meta-pipuck/conf source oe-init-build-env"]
