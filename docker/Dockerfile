@@ -13,4 +13,4 @@ ENV LANG en_US.UTF-8
 USER $host_usrname
 SHELL ["/bin/bash", "-c"]
 WORKDIR /home/$host_usrname/poky
-ENTRYPOINT TEMPLATECONF=meta-drone/conf source oe-init-build-env; /bin/bash
+ENTRYPOINT TEMPLATECONF=meta-pipuck/conf source oe-init-build-env; /bin/bash
