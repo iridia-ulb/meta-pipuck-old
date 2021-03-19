@@ -16,10 +16,10 @@ SYSTEMD_SERVICE_${PN} = "fernbedienung.service"
 
 S = "${WORKDIR}/git"
 
-do_install() { 
+do_install() {
    install -d ${D}${libdir}/fernbedienung/
    install -m 0644 ${S}/service.py ${D}${libdir}/fernbedienung/
-  	install -d ${D}${systemd_unitdir}/system/
+   install -d ${D}${systemd_unitdir}/system/
    install -m 0644 ${WORKDIR}/fernbedienung.service ${D}${systemd_unitdir}/system/
 }
 
