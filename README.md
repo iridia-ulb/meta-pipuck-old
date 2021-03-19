@@ -84,7 +84,7 @@ The most straightforward way to burn a bootable image to the SD card is to use `
 To burn the image, you need to locate the output image from the build system and to identify the device to which you would like to copy the image. The output image files are called `core-image-base-raspberrypi0-wifi.wic.bz2` and `core-image-base-raspberrypi0-wifi.wic.bmap` should be located under `poky/build/tmp/deploy/images/raspberrypi0-wifi`. The device (probably an SD card) that you want to write to will usually be something like `/dev/sdX` or `/dev/mmcX`. The easiest way to find out is to inspect the output of `dmesg` before and after inserting the SD card into your computer. You will need to unmount the device before burning the image. Be careful not to write the image to the device where your OS is installed.
 
 ```
-unmount /dev/DEVICE*
+umount /dev/DEVICE*
 sudo bmaptool copy PATH/TO/core-image-base-raspberrypi0-wifi.wic.bz2 /dev/DEVICE
 ```
 
