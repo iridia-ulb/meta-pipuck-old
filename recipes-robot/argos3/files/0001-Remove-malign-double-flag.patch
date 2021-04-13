@@ -1,0 +1,27 @@
+From 539788a5305ed6ada4d2a90c63f2b802250ea732 Mon Sep 17 00:00:00 2001
+From: Michael Allwright <allsey87@gmail.com>
+Date: Mon, 12 Apr 2021 14:43:50 +0200
+Subject: [PATCH 1/2] Remove -malign-double flag
+
+---
+ src/cmake/ARGoSBuildFlags.cmake | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/src/cmake/ARGoSBuildFlags.cmake b/src/cmake/ARGoSBuildFlags.cmake
+index 11a4bf0d..ff401ea9 100644
+--- a/src/cmake/ARGoSBuildFlags.cmake
++++ b/src/cmake/ARGoSBuildFlags.cmake
+@@ -74,10 +74,6 @@ if(APPLE)
+   set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "-fsanitize=address")
+ else(APPLE)
+   # Linux
+-  #
+-  # Align doubles for higher performance
+-  # Also: required by the PhysX engine
+-  add_definitions(-malign-double)
+   # Avoid discarding unused symbols to allow plugins to work
+   set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-as-needed")
+   set(ARGOS_SHARED_LIBRARY_EXTENSION "so")
+-- 
+2.25.1
+
