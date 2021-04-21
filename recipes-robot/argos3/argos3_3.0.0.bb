@@ -10,11 +10,9 @@ inherit cmake
 
 SRC_URI = " \
    git://github.com/ilpincy/argos3;protocol=http \
-   file://0001-Remove-malign-double-flag.patch \
-   file://0002-Fix-compiler-and-linker-flags.patch \
 "
 
-SRCREV = "8b36a52dc56f6bffcb027eac05ae9c172a742a35"
+SRCREV = "3ef43eb857810a2a461a51f2574a9913cf56702f"
 
 S = "${WORKDIR}/git"
 
