@@ -1,18 +1,18 @@
-From 7f8b4cd014a7d79001397357f64ab3cb3b7a9919 Mon Sep 17 00:00:00 2001
+From 89e3a8d1f497523f22ea5b6646456d4d0f1d5cda Mon Sep 17 00:00:00 2001
 From: Michael Allwright <allsey87@gmail.com>
-Date: Mon, 28 Sep 2020 09:58:28 +0000
+Date: Wed, 9 Jun 2021 15:55:29 +0200
 Subject: [PATCH] mfd: Add support for the E-Puck mobile robot
 
 ---
  drivers/mfd/Kconfig              |  27 +++++
  drivers/mfd/Makefile             |   6 +
- drivers/mfd/epuck-core.c         | 162 +++++++++++++++++++++++++
+ drivers/mfd/epuck-core.c         | 180 ++++++++++++++++++++++++++++
  drivers/mfd/epuck-encoders.c     | 153 ++++++++++++++++++++++++
  drivers/mfd/epuck-leds.c         | 197 +++++++++++++++++++++++++++++++
  drivers/mfd/epuck-motors.c       | 188 +++++++++++++++++++++++++++++
  drivers/mfd/epuck-rangefinders.c | 192 ++++++++++++++++++++++++++++++
  include/linux/mfd/epuck.h        |  52 ++++++++
- 8 files changed, 977 insertions(+)
+ 8 files changed, 995 insertions(+)
  create mode 100644 drivers/mfd/epuck-core.c
  create mode 100644 drivers/mfd/epuck-encoders.c
  create mode 100644 drivers/mfd/epuck-leds.c
@@ -74,10 +74,10 @@ index 3ea14d217f26..5d44119b361d 100644
 +
 diff --git a/drivers/mfd/epuck-core.c b/drivers/mfd/epuck-core.c
 new file mode 100644
-index 000000000000..e5740b6361e9
+index 000000000000..da4825589e31
 --- /dev/null
 +++ b/drivers/mfd/epuck-core.c
-@@ -0,0 +1,162 @@
+@@ -0,0 +1,180 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +
 +/*
@@ -109,6 +109,8 @@ index 000000000000..e5740b6361e9
 + * @client:	The underlying i2c_client
 + *
 + */
++#define I2C_RETRIES 3
++
 +struct epuck {
 +	struct mutex lock;
 +	struct i2c_client *client;
@@ -119,8 +121,12 @@ index 000000000000..e5740b6361e9
 +		    u8* byte)
 +{
 +	s32 ret = 0;
-+ 	mutex_lock(&epuck->lock);
-+	ret = i2c_smbus_read_byte_data(epuck->client, reg);
++	s32 attempts = 0;
++	mutex_lock(&epuck->lock);
++	for(attempts = 0; attempts < I2C_RETRIES; attempts++) {
++		ret = i2c_smbus_read_byte_data(epuck->client, reg);
++		if(ret >= 0) break;
++	}
 +	mutex_unlock(&epuck->lock);
 +	if (ret < 0) {
 +		return ret;
@@ -137,8 +143,12 @@ index 000000000000..e5740b6361e9
 +		     u8 byte)
 +{
 +	s32 ret = 0;
++	s32 attempts = 0;
 + 	mutex_lock(&epuck->lock);
-+	ret = i2c_smbus_write_byte_data(epuck->client, reg, byte);
++ 	for(attempts = 0; attempts < I2C_RETRIES; attempts++) {
++		ret = i2c_smbus_write_byte_data(epuck->client, reg, byte);
++		if(ret == 0) break;
++	}
 +	mutex_unlock(&epuck->lock);
 +	return ret;
 +}
@@ -149,8 +159,12 @@ index 000000000000..e5740b6361e9
 +		    u16* word)
 +{
 +	s32 ret = 0;
++	s32 attempts = 0;
 + 	mutex_lock(&epuck->lock);
-+	ret = i2c_smbus_read_word_data(epuck->client, reg);
++ 	for(attempts = 0; attempts < I2C_RETRIES; attempts++) {
++		ret = i2c_smbus_read_word_data(epuck->client, reg);
++		if(ret >= 0) break;
++	}
 +	mutex_unlock(&epuck->lock);
 +	if (ret < 0) {
 +		return ret;
@@ -167,10 +181,14 @@ index 000000000000..e5740b6361e9
 +		     u16 word)
 +{
 +	s32 ret = 0;
++	s32 attempts = 0;
 +  	mutex_lock(&epuck->lock);
-+	ret = i2c_smbus_write_word_data(epuck->client, reg, word);
++	for(attempts = 0; attempts < I2C_RETRIES; attempts++) {
++		ret = i2c_smbus_write_word_data(epuck->client, reg, word);
++		if(ret == 0) break;
++	}
 +	mutex_unlock(&epuck->lock);
-+	return ret;  
++	return ret;
 +}
 +EXPORT_SYMBOL_GPL(epuck_write_word);
 +
@@ -200,7 +218,7 @@ index 000000000000..e5740b6361e9
 +	struct epuck *epuck;
 +
 +	epuck = devm_kzalloc(dev, sizeof(struct epuck), GFP_KERNEL);
-+	
++
 +	if (!epuck)
 +		return -ENOMEM;
 +
