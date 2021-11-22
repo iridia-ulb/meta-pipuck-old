@@ -7,7 +7,7 @@ RDEPENDS_${PN} = "argos3 apriltag libiio"
 
 inherit cmake
 
-SRC_URI = "git://github.com/allsey87/argos3-srocs.git;protocol=http"
+SRC_URI = "git://github.com/iridia-ulb/argos3-pipuck.git;protocol=http"
 
 SRCREV = "${AUTOREV}"
 
@@ -15,11 +15,10 @@ S = "${WORKDIR}/git"
 
 OECMAKE_SOURCEPATH = "${S}/src"
 
-EXTRA_OECMAKE += "-DARGOS_BUILD_FOR=pipuck -DARGOS_DOCUMENTATION=OFF"
-
-# Since the base package name (BPN) is argos3-srocs and not argos3, Bitbake
-# will not collect the files that we install inside ${datadir}/argos3 and
-# ${libdir}/argos3
+# Since the base package name (BPN) is argos3-pipuck and not argos3, Bitbake will
+# not automatically collect the files that we install inside ${libdir}/argos3,
+# ${datadir}/argos3, and ${includedir}/argos3.
 FILES_${PN} += "${libdir}/argos3/*"
 FILES_${PN} += "${datadir}/argos3/*"
+FILES_${PN} += "${includedir}/argos3/*"
 

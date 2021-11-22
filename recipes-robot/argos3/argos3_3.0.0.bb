@@ -12,13 +12,13 @@ SRC_URI = " \
    git://github.com/ilpincy/argos3;protocol=http \
 "
 
-SRCREV = "3ef43eb857810a2a461a51f2574a9913cf56702f"
+SRCREV = "72d47a6f1731280756fe9f9bc07faddce9d67539"
 
 S = "${WORKDIR}/git"
 
 OECMAKE_SOURCEPATH = "${S}/src"
 
-EXTRA_OECMAKE += "-DARGOS_BUILD_FOR=pipuck -DARGOS_DOCUMENTATION=OFF"
+EXTRA_OECMAKE += "-DARGOS_BUILD_FOR=pi-puck -DARGOS_DOCUMENTATION=OFF"
 
 FILES_${PN}-doc += "${prefix}/doc"
 
