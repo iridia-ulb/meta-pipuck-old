@@ -12,7 +12,7 @@
   <!-- * Controllers * -->
   <!-- *************** -->
   <controllers>
-    <my_pipuck_controller library="@CMAKE_INSTALL_FULL_LIBDIR@/argos3/libmy_pipuck_controller" id="my_pipuck_controller">
+    <my_pipuck_controller>
       <actuators>
         <pipuck_differential_drive implementation="default" />
       </actuators>
