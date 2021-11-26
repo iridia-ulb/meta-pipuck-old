@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<argos-configuration>
+
+  <!-- ************************* -->
+  <!-- * General configuration * -->
+  <!-- ************************* -->
+  <framework>
+    <experiment length="10" ticks_per_second="10" random_seed="0" />
+  </framework>
+  
+  <!-- *************** -->
+  <!-- * Controllers * -->
+  <!-- *************** -->
+  <controllers>
+    <my_pipuck_controller library="@CMAKE_INSTALL_FULL_LIBDIR@/argos3/libmy_pipuck_controller" id="my_pipuck_controller">
+      <actuators>
+        <pipuck_differential_drive implementation="default" />
+      </actuators>
+      <sensors />
+      <params />
+    </my_pipuck_controller>
+  </controllers>
+
+</argos-configuration>
