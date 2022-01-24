@@ -12,7 +12,7 @@ SRC_URI = " \
    git://github.com/ilpincy/argos3;protocol=http \
 "
 
-SRCREV = "72d47a6f1731280756fe9f9bc07faddce9d67539"
+SRCREV = "b19c7539c427b9232d0f87a567ad293b67167dbb"
 
 S = "${WORKDIR}/git"
 
