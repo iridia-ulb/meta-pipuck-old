@@ -9,10 +9,10 @@ RDEPENDS_${PN} = "lua"
 inherit cmake
 
 SRC_URI = " \
-   git://github.com/ilpincy/argos3;protocol=http \
+   git://github.com/allsey87/argos3-upstream;protocol=http \
 "
 
-SRCREV = "b19c7539c427b9232d0f87a567ad293b67167dbb"
+SRCREV = "e975a52c6ac2b2aa8dc735ec4a873e91ee63c289"
 
 S = "${WORKDIR}/git"
 

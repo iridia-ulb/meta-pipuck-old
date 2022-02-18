@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = " \
 	file://99-com.rules \
+	file://99-camera.rules \
 	file://can.rules \
 	"
 
@@ -14,5 +15,6 @@ INHIBIT_DEFAULT_DEPS = "1"
 do_install () {
     install -d ${D}${sysconfdir}/udev/rules.d
     install -m 0644 ${WORKDIR}/99-com.rules ${D}${sysconfdir}/udev/rules.d/
+    install -m 0644 ${WORKDIR}/99-camera.rules ${D}${sysconfdir}/udev/rules.d/
     install -m 0644 ${WORKDIR}/can.rules ${D}${sysconfdir}/udev/rules.d/
 }

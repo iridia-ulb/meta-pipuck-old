@@ -199,6 +199,9 @@ do_deploy() {
     
     # Enable Pi-puck device tree overlay
     echo "dtoverlay=pi-puck" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Enable OV5647 device tree overlay
+    echo "dtoverlay=ov5647" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
     
     # Set GPIO 5 (pin 29) to input,pull-down so board powers off after shutdown
     # Set GPIO 5 (pin 29) to output,high to keep board powered on until shutdown
@@ -216,6 +219,12 @@ do_deploy() {
 
     # Set GPIO 22 (pins 15) to output,low for speaker enable (disabled by default)
     echo "gpio=22=op,dl" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Set GPU memory to 128 MB
+    echo "gpu_mem=128" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+
+    # Enable camera
+    echo "start_x=1" >>${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
 
     # Handle setup with armstub file
     if [ "${@bb.utils.contains("MACHINE_FEATURES", "armstub", "1", "0", d)}" = "1" ]; then

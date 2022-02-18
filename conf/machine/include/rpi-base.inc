@@ -10,6 +10,7 @@ WKS_FILE ?= "sdimage-raspberrypi.wks"
 
 RPI_KERNEL_DEVICETREE_OVERLAYS ?= " \
     overlays/pi-puck.dtbo \
+    overlays/ov5647.dtbo \
 "
 
 RPI_KERNEL_DEVICETREE ?= " \
